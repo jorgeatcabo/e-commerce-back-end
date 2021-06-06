@@ -16,10 +16,37 @@ Category.hasMany(Product, {
 });
 
 // Products belongToMany Tags (through ProductTag)
-Product.belongsToMany(Tag, { through: 'Product_Tags' });
+// Product.belongsToMany(Tag, { through: 'ProductTag' });
+
+// // Tags belongToMany Products (through ProductTag)
+// Tag.belongsToMany(Product, { through: 'ProductTag' });
+
+
+
+// Products belongToMany Tags (through ProductTag)
+Product.belongsToMany(Tag, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: ProductTag,
+    unique: true
+  },
+  // Define an alias for when data is retrieved
+  as: 'tags'
+});
 
 // Tags belongToMany Products (through ProductTag)
-Tag.belongsToMany(Product, { through: 'Tag_Products' });
+Tag.belongsToMany(Product, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: ProductTag,
+    unique: true
+  },
+  // Define an alias for when data is retrieved
+  as: 'products'
+});
+
+
+
 
 module.exports = {
   Product,
